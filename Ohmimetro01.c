@@ -25,7 +25,7 @@
 
 int R_conhecido = 10000;   // Resistor de 10k ohm
 float R_x = 0.0;           // Resistor desconhecido
-float ADC_VREF = 3.31;     // Tensão de referência do ADC
+float ADC_VREF = 3.27;     // Tensão de referência do ADC
 int ADC_RESOLUTION = 4095; // Resolução do ADC (12 bits)
 
 // Trecho para modo BOOTSEL com botão B
@@ -89,7 +89,7 @@ int main()
       R_x = (R_conhecido * media) / (ADC_RESOLUTION - media);
 
     sprintf(str_x, "%1.0f", media); // Converte o inteiro em string
-    sprintf(str_y, "%1.0f", R_x);   // Converte o float em string
+    sprintf(str_y, "%1.0f", R_x-60);   // Converte o float em string
 
     // cor = !cor;
     //  Atualiza o conteúdo do display com animações
