@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pico/stdlib.h"
+#include "math.h"
 #include "hardware/adc.h"
 #include "hardware/i2c.h"
 #include "lib/ssd1306.h"
@@ -73,6 +74,10 @@ int main()
   char str_y[5]; // Buffer para armazenar a string
 
   bool cor = true;
+
+  float e24[24] = {1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 2.0, 2.2, 2.4, 2.7, 3.0, 3.3, 3.6, 3.9, 4.3, 4.7, 5.1, 5.6, 6.2, 6.8, 7.5, 8.2, 9.1};
+  int indice_mais_prox = 0;
+  float menor_distancia = 1000;
   while (true)
   {
     adc_select_input(2); // Seleciona o ADC para eixo X. O pino 28 como entrada analógica
@@ -86,10 +91,34 @@ int main()
     float media = soma / 500.0f;
 
       // Fórmula simplificada: R_x = R_conhecido * ADC_encontrado /(ADC_RESOLUTION - adc_encontrado)
-      R_x = (R_conhecido * media) / (ADC_RESOLUTION - media);
+    R_x = ((R_conhecido * media) / (ADC_RESOLUTION - media))-55; // EM média os valores estavam dando 55 unidades a mais, por isso o -55.
+
+    int zeros_multiplicador = 0;
+    while (R_x >= 9.1){
+      R_x = R_x / 10;
+      zeros_multiplicador++;
+    }
+
+
+    for(int i =0; i < 24; i++){
+
+      if (e24[i] <= R_x*1.05){ // 5% de tolerancia
+        if ((R_x - e24[i])<= menor_distancia){
+          menor_distancia = R_x - e24[i];
+          indice_mais_prox = i;
+        }
+      }
+
+    }
+    R_x = e24[indice_mais_prox];
+    R_x = R_x * (pow(10, zeros_multiplicador));
+    menor_distancia=1000;
+    indice_mais_prox=0;
+    zeros_multiplicador=0; // Coloca as variaveis no padrao pra caso outro resistor tenha sido inserido
+
 
     sprintf(str_x, "%1.0f", media); // Converte o inteiro em string
-    sprintf(str_y, "%1.0f", R_x-60);   // Converte o float em string
+    sprintf(str_y, "%1.0f", R_x);   // Converte o float em string
 
     // cor = !cor;
     //  Atualiza o conteúdo do display com animações
