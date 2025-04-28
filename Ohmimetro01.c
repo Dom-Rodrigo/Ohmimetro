@@ -120,28 +120,29 @@ int main()
     for (int i =0; i < 3; i++){
       faixa_3[i] = cores[zeros_multiplicador-1][i];
     }
-    // sprintf(str_x, "%1.0f", media); // Converte o inteiro em string
-    // sprintf(str_y, "%1.0f", R_x);   // Converte o float em string
+    sprintf(str_x, "%1.0f", media); // Converte o inteiro em string
+    sprintf(str_y, "%1.0f", R_x);   // Converte o float em string
 
     menor_distancia=1000;
     indice_mais_prox=0;
     zeros_multiplicador=0; // Coloca as variaveis no padrao pra caso outro resistor tenha sido inserido
 
-
-
-
-    // cor = !cor;
+    cor = !cor;
     //  Atualiza o conteúdo do display com animações
     ssd1306_fill(&ssd, !cor);                          // Limpa o display
     ssd1306_rect(&ssd, 3, 3, 122, 60, cor, !cor);      // Desenha um retângulo
-    // ssd1306_line(&ssd, 3, 25, 123, 25, cor);           // Desenha uma linha
-    // ssd1306_line(&ssd, 3, 37, 123, 37, cor);           // Desenha uma linha
-    // ssd1306_draw_string(&ssd, "ADC", 13, 41);          // Desenha uma string
-    // ssd1306_draw_string(&ssd, "Resisten.", 50, 41);    // Desenha uma string
-    // ssd1306_line(&ssd, 44, 37, 44, 60, cor);           // Desenha uma linha vertical
-    // ssd1306_draw_string(&ssd, str_x, 8, 52);           // Desenha uma string
-    ssd1306_draw_string(&ssd, faixa_3, 53, 16);  // Desenha uma string
-    // ssd1306_draw_string(&ssd, str_y, 59, 52);          // Desenha uma string
+    ssd1306_line(&ssd, 3, 25, 123, 25, cor);           // Desenha uma linha
+    ssd1306_line(&ssd, 3, 37, 123, 37, cor);           // Desenha uma linha
+    ssd1306_draw_string(&ssd, "ADC", 13, 41);          // Desenha uma string
+    ssd1306_draw_string(&ssd, "Resisten.", 50, 41);    // Desenha uma string
+    ssd1306_line(&ssd, 44, 37, 44, 60, cor);           // Desenha uma linha vertical
+    ssd1306_draw_string(&ssd, str_x, 8, 52);           // Desenha uma string
+    ssd1306_draw_string(&ssd, str_y, 59, 52);          // Desenha uma string
+    // ssd1306_draw_string(&ssd, faixa_3, 53, 16);  // Desenha uma string
+    ssd1306_draw_char(&ssd, faixa_3[0], 53, 16);
+    ssd1306_draw_char(&ssd, faixa_3[1], 61, 16);
+    ssd1306_draw_char(&ssd, faixa_3[2], 69, 16); // NÂO FUNCIONA O DRAW STRING!!
+
     // ssd1306_draw_string(&ssd, faixa_1, 13, 16);  // Desenha uma string
     // ssd1306_draw_string(&ssd, faixa_2, 13, 16);  // Desenha uma string
 
