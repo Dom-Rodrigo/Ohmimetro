@@ -10,3 +10,4 @@ o estudo/aprendizado das funções da biblioteca do display.
 Observação.
 - Implementação do modo BOOTSEL por botão externo (Botão B - GPIO 6). Isto facilita a gravação no desenvolvimento do programa. Quando o projeto for finalizado, deve-se retirar
 esta função.
+# Ohmimetro
