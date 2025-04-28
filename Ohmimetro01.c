@@ -80,6 +80,8 @@ int main()
   char faixa_1[3];
   char faixa_2[3];
   char faixa_3[3];
+  double frac_part;
+  double integer_part;
   int indice_mais_prox = 0;
   float menor_distancia = 1000;
   while (true)
@@ -115,6 +117,21 @@ int main()
 
     }
     R_x = e24[indice_mais_prox];
+
+    frac_part = modf(R_x, &integer_part);
+    frac_part = round(frac_part*10);
+    for (int i =0; i < 3; i++){
+      faixa_2[i] = cores[(int)(frac_part)][i];
+      
+    }
+
+    for (int i =0; i < 3; i++){
+      faixa_1[i] = cores[(int)(round(integer_part))][i];
+    }
+
+
+    
+
     R_x = R_x * (pow(10, zeros_multiplicador));
 
     for (int i =0; i < 3; i++){
@@ -127,7 +144,7 @@ int main()
     indice_mais_prox=0;
     zeros_multiplicador=0; // Coloca as variaveis no padrao pra caso outro resistor tenha sido inserido
 
-    cor = !cor;
+    // cor = !cor;
     //  Atualiza o conteúdo do display com animações
     ssd1306_fill(&ssd, !cor);                          // Limpa o display
     ssd1306_rect(&ssd, 3, 3, 122, 60, cor, !cor);      // Desenha um retângulo
@@ -139,9 +156,19 @@ int main()
     ssd1306_draw_string(&ssd, str_x, 8, 52);           // Desenha uma string
     ssd1306_draw_string(&ssd, str_y, 59, 52);          // Desenha uma string
     // ssd1306_draw_string(&ssd, faixa_3, 53, 16);  // Desenha uma string
-    ssd1306_draw_char(&ssd, faixa_3[0], 53, 16);
-    ssd1306_draw_char(&ssd, faixa_3[1], 61, 16);
-    ssd1306_draw_char(&ssd, faixa_3[2], 69, 16); // NÂO FUNCIONA O DRAW STRING!!
+    ssd1306_draw_char(&ssd, faixa_3[0], 80, 16);
+    ssd1306_draw_char(&ssd, faixa_3[1], 88, 16);
+    ssd1306_draw_char(&ssd, faixa_3[2], 96, 16);
+    
+    ssd1306_draw_char(&ssd, faixa_2[0], 48, 16);
+    ssd1306_draw_char(&ssd, faixa_2[1], 56, 16);
+    ssd1306_draw_char(&ssd, faixa_2[2], 64, 16);
+
+        
+    ssd1306_draw_char(&ssd, faixa_1[0], 16, 16);
+    ssd1306_draw_char(&ssd, faixa_1[1], 24, 16);
+    ssd1306_draw_char(&ssd, faixa_1[2], 32, 16);
+     // NÂO FUNCIONA O DRAW STRING!!
 
     // ssd1306_draw_string(&ssd, faixa_1, 13, 16);  // Desenha uma string
     // ssd1306_draw_string(&ssd, faixa_2, 13, 16);  // Desenha uma string
