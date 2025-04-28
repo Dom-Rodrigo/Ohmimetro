@@ -101,17 +101,18 @@ int main()
       // Fórmula simplificada: R_x = R_conhecido * ADC_encontrado /(ADC_RESOLUTION - adc_encontrado)
     R_x = ((R_conhecido * media) / (ADC_RESOLUTION - media))-55; // EM média os valores estavam dando 55 unidades a mais, por isso o -55.
     resistencia_medida = R_x;
+
     int zeros_multiplicador = 0;
     while (R_x >= 9.1){
-      R_x = R_x / 10;
-      zeros_multiplicador++;
+      R_x = R_x / 10; 
+      zeros_multiplicador++; // Vai somando de acordo com a quantidade de zeros.
     }
 
 
     for(int i =0; i < 24; i++){
 
       if (e24[i] <= R_x*1.05){ // 5% de tolerancia
-        if ((R_x - e24[i])<= menor_distancia){
+        if ((R_x - e24[i])<= menor_distancia){ // Encontra qual valor da faixa E24 está mais próximo da resistência mensurada.
           menor_distancia = R_x - e24[i];
           indice_mais_prox = i;
         }
@@ -120,21 +121,21 @@ int main()
     }
     R_x = e24[indice_mais_prox];
 
-    frac_part = modf(R_x, &integer_part);
-    frac_part = round(frac_part*10);
+    frac_part = modf(R_x, &integer_part); // Pega a parte fracional do valor E24, que é um float de um decimal
+    frac_part = round(frac_part*10); 
     for (int i =0; i < 3; i++){
       faixa_2[i] = cores[(int)(frac_part)][i];
       
     }
 
     for (int i =0; i < 3; i++){
-      faixa_1[i] = cores[(int)(round(integer_part))][i];
+      faixa_1[i] = cores[(int)(round(integer_part))][i]; // Pega a parte inteira do valor E24
     }
 
 
     
 
-    R_x = R_x * (pow(10, zeros_multiplicador));
+    R_x = R_x * (pow(10, zeros_multiplicador)); // Calcula a resistencia levando em conta o multiplicador
 
     for (int i =0; i < 3; i++){
       faixa_3[i] = cores[zeros_multiplicador-1][i];
