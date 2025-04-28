@@ -84,6 +84,8 @@ int main()
   double integer_part;
   int indice_mais_prox = 0;
   float menor_distancia = 1000;
+  float resistencia_medida;
+  char resistencia[5];
   while (true)
   {
     adc_select_input(2); // Seleciona o ADC para eixo X. O pino 28 como entrada analógica
@@ -98,7 +100,7 @@ int main()
 
       // Fórmula simplificada: R_x = R_conhecido * ADC_encontrado /(ADC_RESOLUTION - adc_encontrado)
     R_x = ((R_conhecido * media) / (ADC_RESOLUTION - media))-55; // EM média os valores estavam dando 55 unidades a mais, por isso o -55.
-
+    resistencia_medida = R_x;
     int zeros_multiplicador = 0;
     while (R_x >= 9.1){
       R_x = R_x / 10;
@@ -139,6 +141,7 @@ int main()
     }
     sprintf(str_x, "%1.0f", media); // Converte o inteiro em string
     sprintf(str_y, "%1.0f", R_x);   // Converte o float em string
+    sprintf(resistencia, "%1.0f", resistencia_medida);
 
     menor_distancia=1000;
     indice_mais_prox=0;
@@ -150,12 +153,13 @@ int main()
     ssd1306_rect(&ssd, 3, 3, 122, 60, cor, !cor);      // Desenha um retângulo
     ssd1306_line(&ssd, 3, 25, 123, 25, cor);           // Desenha uma linha
     ssd1306_line(&ssd, 3, 37, 123, 37, cor);           // Desenha uma linha
+    ssd1306_draw_string(&ssd, resistencia, 50, 28); // Desenha uma string
     ssd1306_draw_string(&ssd, "ADC", 13, 41);          // Desenha uma string
     ssd1306_draw_string(&ssd, "Resisten.", 50, 41);    // Desenha uma string
     ssd1306_line(&ssd, 44, 37, 44, 60, cor);           // Desenha uma linha vertical
     ssd1306_draw_string(&ssd, str_x, 8, 52);           // Desenha uma string
     ssd1306_draw_string(&ssd, str_y, 59, 52);          // Desenha uma string
-    // ssd1306_draw_string(&ssd, faixa_3, 53, 16);  // Desenha uma string
+
     ssd1306_draw_char(&ssd, faixa_3[0], 80, 16);
     ssd1306_draw_char(&ssd, faixa_3[1], 88, 16);
     ssd1306_draw_char(&ssd, faixa_3[2], 96, 16);
