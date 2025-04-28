@@ -76,6 +76,10 @@ int main()
   bool cor = true;
 
   float e24[24] = {1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 2.0, 2.2, 2.4, 2.7, 3.0, 3.3, 3.6, 3.9, 4.3, 4.7, 5.1, 5.6, 6.2, 6.8, 7.5, 8.2, 9.1};
+  char cores[10][3] = {"PRT", "MAR", "VEM", "LAR", "AMA", "VED", "AZU", "VIO", "CIN", "BRA"};
+  char faixa_1[3];
+  char faixa_2[3];
+  char faixa_3[3];
   int indice_mais_prox = 0;
   float menor_distancia = 1000;
   while (true)
@@ -112,29 +116,36 @@ int main()
     }
     R_x = e24[indice_mais_prox];
     R_x = R_x * (pow(10, zeros_multiplicador));
+
+    for (int i =0; i < 3; i++){
+      faixa_3[i] = cores[zeros_multiplicador-1][i];
+    }
+    // sprintf(str_x, "%1.0f", media); // Converte o inteiro em string
+    // sprintf(str_y, "%1.0f", R_x);   // Converte o float em string
+
     menor_distancia=1000;
     indice_mais_prox=0;
     zeros_multiplicador=0; // Coloca as variaveis no padrao pra caso outro resistor tenha sido inserido
 
 
-    sprintf(str_x, "%1.0f", media); // Converte o inteiro em string
-    sprintf(str_y, "%1.0f", R_x);   // Converte o float em string
+
 
     // cor = !cor;
     //  Atualiza o conteúdo do display com animações
     ssd1306_fill(&ssd, !cor);                          // Limpa o display
     ssd1306_rect(&ssd, 3, 3, 122, 60, cor, !cor);      // Desenha um retângulo
-    ssd1306_line(&ssd, 3, 25, 123, 25, cor);           // Desenha uma linha
-    ssd1306_line(&ssd, 3, 37, 123, 37, cor);           // Desenha uma linha
-    ssd1306_draw_string(&ssd, "CEPEDI   TIC37", 8, 6); // Desenha uma string
-    ssd1306_draw_string(&ssd, "EMBARCATECH", 20, 16);  // Desenha uma string
-    ssd1306_draw_string(&ssd, "  Ohmimetro", 10, 28);  // Desenha uma string
-    ssd1306_draw_string(&ssd, "ADC", 13, 41);          // Desenha uma string
-    ssd1306_draw_string(&ssd, "Resisten.", 50, 41);    // Desenha uma string
-    ssd1306_line(&ssd, 44, 37, 44, 60, cor);           // Desenha uma linha vertical
-    ssd1306_draw_string(&ssd, str_x, 8, 52);           // Desenha uma string
-    ssd1306_draw_string(&ssd, str_y, 59, 52);          // Desenha uma string
+    // ssd1306_line(&ssd, 3, 25, 123, 25, cor);           // Desenha uma linha
+    // ssd1306_line(&ssd, 3, 37, 123, 37, cor);           // Desenha uma linha
+    // ssd1306_draw_string(&ssd, "ADC", 13, 41);          // Desenha uma string
+    // ssd1306_draw_string(&ssd, "Resisten.", 50, 41);    // Desenha uma string
+    // ssd1306_line(&ssd, 44, 37, 44, 60, cor);           // Desenha uma linha vertical
+    // ssd1306_draw_string(&ssd, str_x, 8, 52);           // Desenha uma string
+    ssd1306_draw_string(&ssd, faixa_3, 53, 16);  // Desenha uma string
+    // ssd1306_draw_string(&ssd, str_y, 59, 52);          // Desenha uma string
+    // ssd1306_draw_string(&ssd, faixa_1, 13, 16);  // Desenha uma string
+    // ssd1306_draw_string(&ssd, faixa_2, 13, 16);  // Desenha uma string
+
     ssd1306_send_data(&ssd);                           // Atualiza o display
-    sleep_ms(700);
+    sleep_ms(800);
   }
 }
